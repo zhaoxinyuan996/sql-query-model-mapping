@@ -30,13 +30,13 @@ def build_model(t, keys, struct) -> Any:
         elif type_ is int or type_ is float or type_ is str:
             return struct
         elif type_ is Union:
-            if type(None) in t.__args__:
+            if type(None) in get_args(t):
                 if not struct:
                     return None
                 else:
-                    return build_model(t.__args__[0], keys, struct)
+                    return build_model(get_args(t), keys, struct)
             else:
-                return build_model(t.__args__[0], keys, struct)
+                return build_model(get_args(t), keys, struct)
     if keys is None:
         return t(**struct)
     if t in _ele:
